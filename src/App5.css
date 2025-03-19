@@ -1,0 +1,10 @@
+.App5{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 900px;
+    height: 100px;
+}
+.App5 div{
+    font-size: 40px;
+}
