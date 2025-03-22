@@ -1,0 +1,14 @@
+.form-Row{
+    display:flex;
+    justify-content: center;
+}
+
+.form-Row div{
+    margin:10px;
+    margin-right:50px;
+    padding:20px;
+    border: 1px solid grey;
+}
+.s{
+    text-align:center;
+}
