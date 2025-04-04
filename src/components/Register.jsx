@@ -1,52 +1,67 @@
-import React,{useState} from 'react'
-import { Link } from 'react-router-dom'
-import "./Register.css"
-
+import React from "react";
+import { useState } from "react";
+import "./Register.css";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { appContext } from "../App";
 export default function Register() {
-  const [users, setUsers] = useState([]);
-  const [user, setUser] = useState([]);
-  const [errorMessage, setErrorMessage] = useState()
-  
+  const { user, setUser, users, setUsers,cart } = useContext(appContext);
+  const [msg, setMsg] = useState();
+  const Navigate = useNavigate();
   const handleSubmit = () => {
-    // const isExistingUser = users.includes(user)
-    const isExistingUser = users.some(u => u.Email === user.Email);
-    if(isExistingUser){
-      setErrorMessage("User Already Exist")
-    }else{
-      setUsers([...users,user])
-      setErrorMessage("")
-    };
-  }
-  
-  const handleDelete = (value) =>{
-    setUsers(users.filter((i) => i !== value));
-  }
+    const found = users.find((value) => value.email === user.email);
+    if (found) {
+      setMsg("User already exists");
+    } else {
+      setUsers([...users, user]);
+      setMsg();
+      Object.keys(cart).length > 0 ? Navigate("/cart") : Navigate("/");
+    }
+  };
+  const handleDelete = (email) => {
+    setUsers(users.filter((value) => value.email !== email));
+  };
   return (
-    <div className="form-Row">
+    <div className="App-Register-Row">
       <div>
         <h2>Registration Form</h2>
-        <p><input type="text" placeholder='Enter name' onChange={(e) => setUser({...user, name:e.target.value})}></input></p>
-        <p><input type="email" placeholder='Email address' onChange={(e) => setUser({...user, Email:e.target.value})}></input></p>
-        <p><input type="password" placeholder='New password' onChange={(e) => setUser({...user, Password:e.target.value})}></input></p>
-        <p className="s"><button onClick={handleSubmit}>Submit</button></p>
-        <p>{errorMessage}</p>
+        {msg}
+        <p>
+          <input
+            type="text"
+            placeholder="Enter name"
+            onChange={(e) => setUser({ ...user, name: e.target.value })}
+          ></input>
+        </p>
+        <p>
+          <input
+            type="text"
+            placeholder="Email address"
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
+          ></input>
+        </p>
+        <p>
+          <input
+            type="password"
+            placeholder="New password"
+            onChange={(e) => setUser({ ...user, password: e.target.value })}
+          ></input>
+        </p>
+        <p>
+          <button onClick={handleSubmit}>Submit</button>
+        </p>
         <p>
           <Link to="../login">Already a member? Log In</Link>
         </p>
       </div>
       <div>
-        <h4><u>User details</u></h4>
-        <table border="1">
-          {users && 
+        {users &&
           users.map((value, index) => (
-            <tr>
-              <td>{value.name}</td>
-              <td>{value.Email}</td>
-              <td>{value.Password}</td>
-              <button onClick={()=>handleDelete(value)}>delete</button>
-            </tr>
+            <li>
+              {value.name}-{value.email}-{value.password}
+              <button onClick={() => handleDelete(value.email)}>Delete</button>
+            </li>
           ))}
-        </table>
       </div>
     </div>
   );

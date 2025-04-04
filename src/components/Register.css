@@ -1,14 +1,10 @@
-.form-Row{
+.App-Register-Row{
     display:flex;
     justify-content: center;
 }
 
-.form-Row div{
+.App-Register-Row div{
     margin:10px;
-    margin-right:50px;
-    padding:20px;
-    border: 1px solid grey;
-}
-.s{
-    text-align:center;
+    padding: 10px;
+    border: 1px solid gray;
 }
